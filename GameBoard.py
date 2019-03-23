@@ -13,6 +13,11 @@ class GameBoard:
         :param board_file: a .txt file containing the board layout
         """
 
+        try:
+            self.board = self.parse_board(board_file)
+        except FileNotFoundError as fnf:
+            print("The file %s does not exist!" % fnf.filename)
+
     def __str__(self):
         """
         The board in string form, can be used for printing the stage
@@ -42,6 +47,11 @@ class GameBoard:
         :param board_file:     text file containing the board layout
         :return:               2 dimensional array containing the tiles from the board file
         """
+        with open(board_file) as file:
+            for
+                """#########################################################
+                ################## CONTINUE HERE ###########################
+                #########################################################"""
 
 
 class Tile:
