@@ -1,4 +1,4 @@
-import Entity
+from Entity import *
 
 
 class Doctor(Entity):
@@ -15,6 +15,7 @@ class Doctor(Entity):
         :param x:   the x-coordinate
         :param y:   the y-coordinate
         """
+        super().__init__(x, y, "W")
 
     def teleport(self):
         """

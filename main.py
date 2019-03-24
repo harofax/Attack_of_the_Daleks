@@ -1,3 +1,4 @@
+from GameBoard import *
 def setup():
     """
     Sets up the board and initializes the game
@@ -23,7 +24,7 @@ def draw():
 
 def main():
     print("Welcome!")
-
+    game_board = GameBoard("test-labyrint.txt")
 
 
 

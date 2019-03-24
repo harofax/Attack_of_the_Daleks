@@ -1,8 +1,13 @@
+from Tile import *
+from Dalek import *
+from Scrap import *
+from Doctor import *
+
+
 class GameBoard:
     """
     Attributes:
     board:      the array containing the game-board
-    tiles:      a dictionary containing the characters for the tiles/entities
     entities:   a list of all the entities in the map
     """
 
@@ -12,7 +17,7 @@ class GameBoard:
         board-array as well as the entities list.
         :param board_file: a .txt file containing the board layout
         """
-
+        self.entities = []
         try:
             self.board = self.parse_board(board_file)
         except FileNotFoundError as fnf:
@@ -23,14 +28,24 @@ class GameBoard:
         The board in string form, can be used for printing the stage
         :return:
         """
+        board_string = ""
+        for row in self.board:
+            board_string += "".join([str(cell) for cell in row])
+            board_string += '\n'
 
-    def get_creature_at(self, x, y):
+        return board_string
+
+    def get_entity_at(self, x, y):
         """
-        Gets the creature located at the given x and y coordinates
+        Gets the Entity located at the given x and y coordinates
         :param x:   x-coordinate
         :param y:   y-coordinate
         :return:    returns the Entity gotten, or None if no creature was found.
         """
+        if isinstance(self.board[y][x], Entity):
+            return self.board[y][x]
+        else:
+            return None
 
     def get_tile_at(self, x, y):
         """
@@ -47,28 +62,31 @@ class GameBoard:
         :param board_file:     text file containing the board layout
         :return:               2 dimensional array containing the tiles from the board file
         """
+
+        # Load all the data into the array
         with open(board_file) as file:
-            for
-                """#########################################################
-                ################## CONTINUE HERE ###########################
-                #########################################################"""
+            board = [list(line.strip('\n')) for line in file]
+
+        # Replace characters with tiles and put entities into lists
+        for y in range(len(board)):
+            for x in range(len(board[y])):
+                if board[y][x] == ".":
+                    board[y][x] = Tile(".")
+                elif board[y][x] == "#":
+                    board[y][x] = Tile("#")
+                elif board[y][x] == "D":
+                    dalek = Dalek(x, y)
+                    board[y][x] = dalek
+                    self.entities.append(dalek)
+                elif board[y][x] == "W":
+                    doctor = Doctor(x, y)
+                    board[y][x] = doctor
+                    self.entities.append(doctor)
+
+        return board
 
 
-class Tile:
-    """
-    A tile on the map, either a floor ".", or a wall "#".
-    Attributes:
-    tile:     the character representing the tile
-    """
-    def __init__(self, tile):
-        """
-        Creates a new tile
-        :param tile: the character of the tile - either a # or a . depending on tile type
-        """
 
-    def isWall(self):
-        """
-        Checks if the tile is a wall tile
-        :return: Boolean variable, true if self.tile == "#"
-        """
+
+
 

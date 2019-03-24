@@ -1,4 +1,4 @@
-import Entity
+from Entity import *
 
 
 class Dalek(Entity):
@@ -13,6 +13,7 @@ class Dalek(Entity):
         :param x:   x-coordinate
         :param y:   y-coordinate
         """
+        super().__init__(x, y, "D")
 
     def collide(self, other):
         """

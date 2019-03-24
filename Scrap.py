@@ -1,4 +1,4 @@
-import Entity
+from Entity import *
 
 
 class Scrap(Entity):

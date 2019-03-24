@@ -8,7 +8,7 @@ class Entity:
     world:  the world that the entity inhabits
     """
 
-    def __init__(self, x, y, glyph):
+    def __init__(self, x, y, glyph): ######### add reference to world
         """
         Creates a new entity
         :param x:       x-coordinate
@@ -39,3 +39,4 @@ class Entity:
         Returns the glyph of an Entity
         :return: glyph
         """
+        return self.glyph
