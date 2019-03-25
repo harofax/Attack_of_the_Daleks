@@ -1,7 +1,8 @@
 from Tile import *
-from Dalek import *
-from Scrap import *
-from Doctor import *
+import Doctor
+import Dalek
+import Scrap
+import copy
 
 
 class GameBoard:
@@ -9,6 +10,7 @@ class GameBoard:
     Attributes:
     board:      the array containing the game-board
     entities:   a list of all the entities in the map
+    player:     the player
     """
 
     def __init__(self, board_file):
@@ -17,6 +19,9 @@ class GameBoard:
         board-array as well as the entities list.
         :param board_file: a .txt file containing the board layout
         """
+        self.game_over = False
+        self.win = False
+        self.player = None
         self.entities = []
         try:
             self.board = self.parse_board(board_file)
@@ -28,32 +33,64 @@ class GameBoard:
         The board in string form, can be used for printing the stage
         :return:
         """
+        print_board = copy.deepcopy(self.board)
+
+        for entity in self.entities:
+            print_board[entity.y][entity.x] = entity
+
         board_string = ""
-        for row in self.board:
+        for row in print_board:
             board_string += "".join([str(cell) for cell in row])
             board_string += '\n'
 
         return board_string
 
-    def get_entity_at(self, x, y):
+    def get_entity(self, x, y):
         """
         Gets the Entity located at the given x and y coordinates
         :param x:   x-coordinate
         :param y:   y-coordinate
         :return:    returns the Entity gotten, or None if no creature was found.
         """
-        if isinstance(self.board[y][x], Entity):
-            return self.board[y][x]
-        else:
-            return None
 
-    def get_tile_at(self, x, y):
+        for entity in self.entities:
+            if entity.x == x and entity.y == y:
+                return entity
+
+        return None
+
+    def set_entity(self, entity):
+        self.entities.append(entity)
+
+    def get_tile(self, x, y):
         """
         Get's the tile at the given x and y coordinates
         :param x:   x-coordinate
         :param y:   y-coordinate
         :return:    Tile object
         """
+        return self.board[y][x]
+
+    def get_height(self):
+        return len(self.board)
+
+    def get_width(self, row):
+        return len(self.board[row])
+
+    def set_tile(self, x, y, tile):
+        """
+        Sets the tile at the given x and y coordinates to the specified Tile
+        :param x:       y-coordinate
+        :param y:       x-coordinate
+        :type x:        int
+        :type y:        int
+        :type tile:     Tile
+        :param tile:    Tile
+        :return:        (nothing)
+        """
+        if not (isinstance(tile, Tile)):
+            raise TypeError("Argument must be a Tile")
+        self.board[y][x] = tile
 
     def parse_board(self, board_file):
         """
@@ -75,13 +112,14 @@ class GameBoard:
                 elif board[y][x] == "#":
                     board[y][x] = Tile("#")
                 elif board[y][x] == "D":
-                    dalek = Dalek(x, y)
-                    board[y][x] = dalek
+                    dalek = Dalek.Dalek(x, y, self)
+                    board[y][x] = Tile(".")
                     self.entities.append(dalek)
                 elif board[y][x] == "W":
-                    doctor = Doctor(x, y)
-                    board[y][x] = doctor
+                    doctor = Doctor.Doctor(x, y, self)
+                    board[y][x] = Tile(".")
                     self.entities.append(doctor)
+                    self.player = doctor
 
         return board
 

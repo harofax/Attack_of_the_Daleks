@@ -8,7 +8,7 @@ class Entity:
     world:  the world that the entity inhabits
     """
 
-    def __init__(self, x, y, glyph): ######### add reference to world
+    def __init__(self, x, y, world, glyph):
         """
         Creates a new entity
         :param x:       x-coordinate
@@ -17,6 +17,7 @@ class Entity:
         """
         self.x = x
         self.y = y
+        self.world = world
         self.glyph = glyph
 
     def move_by(self, dx, dy):
@@ -25,8 +26,16 @@ class Entity:
         :param dx: relative movement in x
         :param dy: relative movement in y
         """
+        tile = self.world.get_tile(self.x+dx, self.y+dy)
+        creature = self.world.get_entity(self.x+dx, self.y+dy)
 
-    def collide(self, other):
+        if creature is not None and creature is not self:
+            self.collide(creature)
+        if not tile.isWall():
+            self.x += dx
+            self.y += dy
+
+    def collide(self, other, *msg):
         """
         Handles collision between another entity, meant as an abstract method to be overridden
         by subclasses

@@ -16,6 +16,7 @@ class Tile:
         Checks if the tile is a wall tile
         :return: Boolean variable, true if self.tile == "#"
         """
+        return self.glyph == "#"
 
     def __str__(self):
         return self.glyph
