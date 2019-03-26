@@ -43,6 +43,12 @@ class Entity:
         :return:        nothing
         """
 
+    def update(self):
+        """
+        Function that runs every turn, handles updating this entity.
+        :return:    (nothing)
+        """
+
     def __str__(self):
         """
         Returns the glyph of an Entity

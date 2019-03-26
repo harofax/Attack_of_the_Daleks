@@ -1,7 +1,7 @@
 import Entity
 import Scrap
 import Doctor
-
+import random
 
 class Dalek(Entity.Entity):
     """
@@ -35,12 +35,25 @@ class Dalek(Entity.Entity):
 
         if isinstance(other, Scrap.Scrap):
             print("The dalek STUPIDLY crashed into a pile of scrap, instantly bursting into flames")
-            del self
+            self.world.entities.remove(self)
+
+        if isinstance(other, Doctor.Doctor):
+            print("The Dalek fires its BEAM GUN with no mercy, while shrieking 'EXTERMINATE'. \nYou have died.")
+            self.world.game_over = True
+
+    def update(self):
+        """
+        Every turn the Daleks need to go one step towards the Doctor
+        :return:    (nothing)
+        """
+        self.hunt()
+        print("EXTERMINATE")
 
     def hunt(self):
         """
         Method containing the A* algorithm used to go towards the Doctor, using
         the move_by method.
         """
+        self.move_by(random.randint(-1, 1), random.randint(-1, 1))
 
 

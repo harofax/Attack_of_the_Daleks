@@ -33,17 +33,35 @@ class GameBoard:
         The board in string form, can be used for printing the stage
         :return:
         """
+        """
         print_board = copy.deepcopy(self.board)
 
         for entity in self.entities:
             print_board[entity.y][entity.x] = entity
-
+        """
         board_string = ""
+        cool_array = []
+
+        for y in range(len(self.board)):
+            for x in range(len(self.board[y])):
+                entities_here = list(filter(lambda entity: entity.x == x and entity.y == y, self.entities))
+                if entities_here:
+                    board_string += str(entities_here.pop())
+                else:
+                    board_string += str(self.board[y][x])
+            board_string += "\n"
+
+        """print(cool_array)
+
         for row in print_board:
             board_string += "".join([str(cell) for cell in row])
             board_string += '\n'
-
+        """
         return board_string
+
+    def update(self):
+        for entity in self.entities:
+            entity.update()
 
     def get_entity(self, x, y):
         """

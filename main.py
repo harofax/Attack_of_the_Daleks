@@ -23,7 +23,7 @@ def update(game_board):
     Waits for user input, then moves Daleks accordingly and checks for the win/lose-condition.
     :return:    nothing
     """
-    mov = "q"#input("Command> ").lower()
+    mov = input("Command> ").lower()
 
     if mov == "w": game_board.player.move_by(0, -1)
     elif mov == "x": game_board.player.move_by(0, 1)
@@ -37,10 +37,9 @@ def update(game_board):
     elif mov == "t": game_board.player.teleport()
 
     # Maybe just put daleks into separate list in gameboard instead...depends on if scrap is used at all
-    for dalek in filter(lambda entity: entity.name == "Dalek", game_board.entities):
-        dalek.move_by(random.randint(-1, 1), random.randint(-1, 1))
 
     print(len(list(filter(lambda entity: entity.name == "Dalek", game_board.entities))))
+    game_board.update()
 
 
 def draw(game_board):

@@ -44,10 +44,13 @@ class Doctor(Entity.Entity):
             self.collide(target_creature, "You materialized inside the " + target_creature.name
                          + " and instantly died.")
 
-    def move_by(self, dx, dy):
+    def update(self):
+        """
+        Every turn the cooldown on the Sonic Screwdriver decreases by 1, until it reaches 0
+        :return:
+        """
         if self.screwdriver_cooldown != 0:
             self.screwdriver_cooldown -= 1
-        super().move_by(dx, dy)
 
     def collide(self, other, *msg):
         """
