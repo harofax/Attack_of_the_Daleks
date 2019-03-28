@@ -2,20 +2,9 @@ from GameBoard import *
 import os
 import random
 
+
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def setup():
-    """
-    Sets up the board and initializes the game
-    :param board_file:  location of the board file.
-    :return:    (nothing)
-    """
-
-    print("Welcome!")
-    game_board = GameBoard("test-labyrint.txt")
-    print(str(game_board))
 
 
 def update(game_board):
@@ -25,16 +14,26 @@ def update(game_board):
     """
     mov = input("Command> ").lower()
 
-    if mov == "w": game_board.player.move_by(0, -1)
-    elif mov == "x": game_board.player.move_by(0, 1)
-    elif mov == "a": game_board.player.move_by(-1, 0)
-    elif mov == "d": game_board.player.move_by(1, 0)
-    elif mov == "q": game_board.player.move_by(-1, -1)
-    elif mov == "e": game_board.player.move_by(1, -1)
-    elif mov == "z": game_board.player.move_by(-1, 1)
-    elif mov == "c": game_board.player.move_by(1, 1)
-    elif mov == "s": game_board.player.move_by(0, 0)
-    elif mov == "t": game_board.player.teleport()
+    if mov == "w":
+        game_board.player.move_by(0, -1)
+    elif mov == "x":
+        game_board.player.move_by(0, 1)
+    elif mov == "a":
+        game_board.player.move_by(-1, 0)
+    elif mov == "d":
+        game_board.player.move_by(1, 0)
+    elif mov == "q":
+        game_board.player.move_by(-1, -1)
+    elif mov == "e":
+        game_board.player.move_by(1, -1)
+    elif mov == "z":
+        game_board.player.move_by(-1, 1)
+    elif mov == "c":
+        game_board.player.move_by(1, 1)
+    elif mov == "s":
+        game_board.player.move_by(0, 0)
+    elif mov == "t":
+        game_board.player.teleport()
 
     # Maybe just put daleks into separate list in gameboard instead...depends on if scrap is used at all
 
@@ -53,9 +52,17 @@ def draw(game_board):
 
 
 def main():
-
     print("Welcome!")
-    game_board = GameBoard("test-labyrint.txt")
+    while "Asking for map file":
+        board_file = input("Please enter the name of the board you want to load: ")
+        try:
+            game_board = GameBoard(board_file)
+            break
+        except ValueError as ve:
+            print(str(ve))
+        except FileNotFoundError as fnf:
+            print("The file %s does not exist!" % fnf.filename)
+
     print(str(game_board))
 
     while not game_board.game_over:
@@ -65,5 +72,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

@@ -43,6 +43,7 @@ class Entity:
         :return:        nothing
         """
 
+
     def update(self):
         """
         Function that runs every turn, handles updating this entity.

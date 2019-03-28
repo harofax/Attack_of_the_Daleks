@@ -23,10 +23,7 @@ class GameBoard:
         self.win = False
         self.player = None
         self.entities = []
-        try:
-            self.board = self.parse_board(board_file)
-        except FileNotFoundError as fnf:
-            print("The file %s does not exist!" % fnf.filename)
+        self.board = self.parse_board(board_file)
 
     def __str__(self):
         """
@@ -40,7 +37,6 @@ class GameBoard:
             print_board[entity.y][entity.x] = entity
         """
         board_string = ""
-        cool_array = []
 
         for y in range(len(self.board)):
             for x in range(len(self.board[y])):
@@ -62,6 +58,9 @@ class GameBoard:
     def update(self):
         for entity in self.entities:
             entity.update()
+
+        if self.player not in self.entities:
+            self.game_over = True
 
     def get_entity(self, x, y):
         """
@@ -122,6 +121,11 @@ class GameBoard:
         with open(board_file) as file:
             board = [list(line.strip('\n')) for line in file]
 
+        iterator = iter(board)
+        map_len = len(next(iterator))
+        if not all(len(row) == map_len for row in iterator):
+            raise ValueError("All rows in map-file must be of equal length!")
+
         # Replace characters with tiles and put entities into lists
         for y in range(len(board)):
             for x in range(len(board[y])):
@@ -138,6 +142,8 @@ class GameBoard:
                     board[y][x] = Tile(".")
                     self.entities.append(doctor)
                     self.player = doctor
+                else:
+                    raise ValueError("The only characters allowed in the map-file are\n . # D W")
 
         return board
 

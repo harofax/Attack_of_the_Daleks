@@ -47,13 +47,44 @@ class Dalek(Entity.Entity):
         :return:    (nothing)
         """
         self.hunt()
-        print("EXTERMINATE")
 
     def hunt(self):
         """
         Method containing the A* algorithm used to go towards the Doctor, using
         the move_by method.
         """
-        self.move_by(random.randint(-1, 1), random.randint(-1, 1))
+        player_x = self.world.player.x
+        player_y = self.world.player.y
+
+        x_dir = 0
+        y_dir = 0
+
+        if self.x < player_x:
+            x_dir = 1
+        elif self.x > player_x:
+            x_dir = -1
+
+        if self.y < player_y:
+            y_dir = 1
+        elif self.y > player_y:
+            y_dir = -1
+
+        print("dalek xdir ydir: ", x_dir, y_dir)
+
+
+        if self.world.get_tile(self.x+x_dir, self.y+y_dir).isWall():
+            y_wall = self.world.get_tile(self.x, self.y+y_dir).isWall()
+            x_wall = self.world.get_tile(self.x + x_dir, self.y).isWall()
+            if not x_wall:
+                y_dir = 0
+            if not y_wall:
+                x_dir = 0
+
+            #if not x_wall and not y_wall:
+             #   doctor_x_len = abs(self.world.player.x - self.x)
+              #  doctor_y_len = abs(self.world.player.y - self.y)
+
+
+        self.move_by(x_dir, y_dir)
 
 
