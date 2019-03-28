@@ -61,6 +61,11 @@ class GameBoard:
 
         if self.player not in self.entities:
             self.game_over = True
+            print("You lost. Try again.")
+
+        if not list(filter(lambda entity: entity.name == "Dalek", self.entities)):
+            self.game_over = True
+            print("You won! Congratulations!")
 
     def get_entity(self, x, y):
         """

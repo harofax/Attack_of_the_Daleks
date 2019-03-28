@@ -39,7 +39,7 @@ class Dalek(Entity.Entity):
 
         if isinstance(other, Doctor.Doctor):
             print("The Dalek fires its BEAM GUN with no mercy, while shrieking 'EXTERMINATE'. \nYou have died.")
-            self.world.game_over = True
+            self.world.entities.remove(other)
 
     def update(self):
         """
@@ -69,9 +69,6 @@ class Dalek(Entity.Entity):
         elif self.y > player_y:
             y_dir = -1
 
-        print("dalek xdir ydir: ", x_dir, y_dir)
-
-
         if self.world.get_tile(self.x+x_dir, self.y+y_dir).isWall():
             y_wall = self.world.get_tile(self.x, self.y+y_dir).isWall()
             x_wall = self.world.get_tile(self.x + x_dir, self.y).isWall()
@@ -79,11 +76,6 @@ class Dalek(Entity.Entity):
                 y_dir = 0
             if not y_wall:
                 x_dir = 0
-
-            #if not x_wall and not y_wall:
-             #   doctor_x_len = abs(self.world.player.x - self.x)
-              #  doctor_y_len = abs(self.world.player.y - self.y)
-
 
         self.move_by(x_dir, y_dir)
 

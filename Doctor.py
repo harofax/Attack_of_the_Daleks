@@ -37,7 +37,7 @@ class Doctor(Entity.Entity):
                 target_creature = self.world.get_entity(x, y)
                 self.x = x
                 self.y = y
-                self.screwdriver_cooldown = 0
+                self.screwdriver_cooldown = 5
                 break
 
         if target_creature is not None and target_creature is not self:
@@ -51,6 +51,15 @@ class Doctor(Entity.Entity):
         """
         if self.screwdriver_cooldown != 0:
             self.screwdriver_cooldown -= 1
+            print("Teleport cooldown:", self.screwdriver_cooldown)
+
+    def move_by(self, dx, dy):
+        scrap = self.world.get_entity(self.x + dx, self.y + dy)
+
+        if isinstance(scrap, Scrap.Scrap):
+            return
+        else:
+            Entity.Entity.move_by(self, dx, dy)
 
     def collide(self, other, *msg):
         """
@@ -63,7 +72,7 @@ class Doctor(Entity.Entity):
             if msg:
                 print(msg)
             else:
-                print("You got brutally murdered by a Dalek")
-            self.world.game_over = True
+                print("You tackle the Dalek before it disintegrates you with its beam of DEATH.")
+            self.world.entities.remove(self)
 
 
