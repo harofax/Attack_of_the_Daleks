@@ -3,6 +3,7 @@ import Scrap
 import Doctor
 import random
 
+
 class Dalek(Entity.Entity):
     """
     A Dalek, murderous robot hunting for the Doctor
@@ -59,6 +60,12 @@ class Dalek(Entity.Entity):
         x_dir = 0
         y_dir = 0
 
+        dx = player_x - self.x
+        dy = player_y - self.y
+
+        if dx == dy:
+
+
         if self.x < player_x:
             x_dir = 1
         elif self.x > player_x:
@@ -69,14 +76,12 @@ class Dalek(Entity.Entity):
         elif self.y > player_y:
             y_dir = -1
 
-        if self.world.get_tile(self.x+x_dir, self.y+y_dir).isWall():
-            y_wall = self.world.get_tile(self.x, self.y+y_dir).isWall()
-            x_wall = self.world.get_tile(self.x + x_dir, self.y).isWall()
+        if self.world.get_tile(self.x + x_dir, self.y + y_dir).is_wall():
+            y_wall = self.world.get_tile(self.x, self.y + y_dir).is_wall()
+            x_wall = self.world.get_tile(self.x + x_dir, self.y).is_wall()
             if not x_wall:
                 y_dir = 0
             if not y_wall:
                 x_dir = 0
 
         self.move_by(x_dir, y_dir)
-
-

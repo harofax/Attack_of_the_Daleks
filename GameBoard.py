@@ -1,8 +1,6 @@
-from Tile import *
-import Doctor
 import Dalek
-import Scrap
-import copy
+import Doctor
+from Tile import *
 
 
 class GameBoard:
@@ -151,9 +149,3 @@ class GameBoard:
                     raise ValueError("The only characters allowed in the map-file are\n . # D W")
 
         return board
-
-
-
-
-
-

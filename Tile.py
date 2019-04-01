@@ -11,7 +11,7 @@ class Tile:
         """
         self.glyph = glyph
 
-    def isWall(self):
+    def is_wall(self):
         """
         Checks if the tile is a wall tile
         :return: Boolean variable, true if self.tile == "#"

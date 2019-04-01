@@ -26,12 +26,12 @@ class Entity:
         :param dx: relative movement in x
         :param dy: relative movement in y
         """
-        tile = self.world.get_tile(self.x+dx, self.y+dy)
-        creature = self.world.get_entity(self.x+dx, self.y+dy)
+        tile = self.world.get_tile(self.x + dx, self.y + dy)
+        creature = self.world.get_entity(self.x + dx, self.y + dy)
 
         if creature is not None and creature is not self:
             self.collide(creature)
-        if not tile.isWall():
+        if not tile.is_wall():
             self.x += dx
             self.y += dy
 
@@ -43,10 +43,10 @@ class Entity:
         :return:        nothing
         """
 
-
     def update(self):
         """
         Function that runs every turn, handles updating this entity.
+        Meant to be overridden by subclasses that update in specific ways.
         :return:    (nothing)
         """
 

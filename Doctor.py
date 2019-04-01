@@ -33,7 +33,7 @@ class Doctor(Entity.Entity):
             x = random.randrange(1, self.world.get_width(y))
 
             # If the position isn't a wall, teleport to it! Otherwise try again.
-            if not self.world.get_tile(x, y).isWall():
+            if not self.world.get_tile(x, y).is_wall():
                 target_creature = self.world.get_entity(x, y)
                 self.x = x
                 self.y = y

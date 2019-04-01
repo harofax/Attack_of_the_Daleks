@@ -3,7 +3,18 @@ import os
 
 
 def cls():
+    """
+    A function for clearing the terminal window so that the printing
+    of the screen "replaces" the previous print instead of printing
+    below it.
+
+    Works for Windows, MacOS and Linux.
+
+    cls = clear command in Windows CMD
+    clear = clear command in Linux and Windows Powershell, MacOS
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def setup():
     print("*************************")
@@ -12,18 +23,17 @@ def setup():
     print("*     INVASION     /___\\*")
     print("*************************")
 
-    # Don't actually care what they write, but let them dream.
-    print("Write START to play the game")
+    print("Type ANYTHING to play the game")
     print("( or HELP to get instructions )")
 
-    if (input("> ").upper() == "HELP"):
+    if input("> ").upper() == "HELP":
         print(" REVOLUTIONARY 8-DIRECTIONAL MOVEMENT:")
         print(" [q]   [w]   [e]")
         print("     \\  |  /         PRESS [T]")
         print(" [a] - [s] - [d]    TO TELEPORT")
         print("     /  |  \\")
         print(" [z]   [x]   [c]")
-        input(">")
+        input("> [ENTER] ")
         cls()
         print(" * AVOID THE DALEKS UNTIL THEY ARE ALL DEAD")
         print(" * IF THEY BUMP INTO EACH OTHER, THEY DIE.")
@@ -32,9 +42,8 @@ def setup():
         print(" * OF DEAD DALEKS, SOMETHING TO DO WITH")
         print(" * QUANTUM ENERGIES OR LOOSE DEATH-BEAM-FUEL.")
         print(" * WHO KNOWS.")
-        print("          [DON'T DIE] ")
-        input("> ")
-
+        print("          >DON'T DIE< ")
+        input("> [ENTER] ")
 
 
 def update(game_board, player_input):
@@ -42,7 +51,6 @@ def update(game_board, player_input):
     Waits for user input, then moves Daleks accordingly and checks for the win/lose-condition.
     :return:    nothing
     """
-
 
     if player_input == "w":
         game_board.player.move_by(0, -1)
@@ -79,6 +87,23 @@ def draw(game_board):
     print(str(game_board))
 
 
+valid_commands = "qweasdzxct"
+
+
+def get_player_input():
+    """
+    Asks player for input until valid input is given
+    :return:    a valid player command
+    """
+    while "No valid input given":
+        print("Enter your command: ")
+        player_command = input("> ").lower()
+        if player_command in valid_commands and len(player_command) == 1:
+            return player_command
+        else:
+            print("Please enter a valid command.")
+
+
 def main():
     setup()
     cls()
@@ -98,11 +123,10 @@ def main():
         print(str(game_board))
 
         while not game_board.game_over:
-            player_input = input("Command> ").lower()
+            player_input = get_player_input()
             cls()
             update(game_board, player_input)
             draw(game_board)
-
 
         while "Asking for re-match":
             cls()
