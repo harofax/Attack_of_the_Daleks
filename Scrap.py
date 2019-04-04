@@ -1,6 +1,4 @@
 import Entity
-import Dalek
-import Doctor
 
 
 class Scrap(Entity.Entity):
@@ -17,10 +15,4 @@ class Scrap(Entity.Entity):
         """
         self.name = "scrap pile"
         super().__init__(x, y, world, "%")
-
-    def collide(self, other, *msg):
-        """
-        Handles collision with other Entity objects.
-        :param other:   another Entity object
-        """
 

@@ -26,14 +26,9 @@ class GameBoard:
     def __str__(self):
         """
         The board in string form, can be used for printing the stage
-        :return:
+        :return:      board-string
         """
-        """
-        print_board = copy.deepcopy(self.board)
 
-        for entity in self.entities:
-            print_board[entity.y][entity.x] = entity
-        """
         board_string = ""
 
         for y in range(len(self.board)):
@@ -45,23 +40,18 @@ class GameBoard:
                     board_string += str(self.board[y][x])
             board_string += "\n"
 
-        """print(cool_array)
-
-        for row in print_board:
-            board_string += "".join([str(cell) for cell in row])
-            board_string += '\n'
-        """
         return board_string
 
     def update(self):
         for entity in self.entities:
             entity.update()
 
-        if self.player not in self.entities:
+        if self.player.dead:
             self.game_over = True
             print("You lost. Try again.")
 
-        if not list(filter(lambda entity: entity.name == "Dalek", self.entities)):
+        # Check if any Daleks are left in the entities list, if not - VICTORY
+        if not list(filter(lambda board_entity: board_entity.name == "Dalek", self.entities)):
             self.game_over = True
             print("You won! Congratulations!")
 
@@ -80,11 +70,18 @@ class GameBoard:
         return None
 
     def set_entity(self, entity):
+        """
+        For creating entities. Since they keep track of their
+        own x and y coordinates, we only need to add them to the
+        entities list.
+        :param entity:     the entity to add
+        :return:           (nothing)
+        """
         self.entities.append(entity)
 
     def get_tile(self, x, y):
         """
-        Get's the tile at the given x and y coordinates
+        Gets the tile at the given x and y coordinates
         :param x:   x-coordinate
         :param y:   y-coordinate
         :return:    Tile object
@@ -92,10 +89,17 @@ class GameBoard:
         return self.board[y][x]
 
     def get_height(self):
+        """
+        :return:    height of board
+        """
         return len(self.board)
 
-    def get_width(self, row):
-        return len(self.board[row])
+    def get_width(self):
+        """ Since all rows must be the same length, we only need to
+        check the first row.
+        :return:    width of board
+        """
+        return len(self.board[0])
 
     def set_tile(self, x, y, tile):
         """
@@ -124,7 +128,10 @@ class GameBoard:
         with open(board_file) as file:
             board = [list(line.strip('\n')) for line in file]
 
+        # We make an iterator out of the board-list and go through it
+        # to check if all the rows are the same length
         iterator = iter(board)
+        # set map_len to the length of the first row
         map_len = len(next(iterator))
         if not all(len(row) == map_len for row in iterator):
             raise ValueError("All rows in map-file must be of equal length!")

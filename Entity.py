@@ -19,6 +19,7 @@ class Entity:
         self.y = y
         self.world = world
         self.glyph = glyph
+        self.dead = False
 
     def move_by(self, dx, dy):
         """
@@ -30,18 +31,29 @@ class Entity:
         creature = self.world.get_entity(self.x + dx, self.y + dy)
 
         if creature is not None and creature is not self:
-            self.collide(creature)
+            self.collide(creature, False, False)
         if not tile.is_wall():
             self.x += dx
             self.y += dy
 
-    def collide(self, other, *msg):
+    def collide(self, other, remove_self, remove_other, msg=""):
         """
-        Handles collision between another entity, meant as an abstract method to be overridden
-        by subclasses
-        :param other:   another Entity object
-        :return:        nothing
+        Handles collision between another entities
+        :param other:           another Entity object
+        :param remove_self:     whether to remove self when checking collision
+        :param remove_other:    whether to remove other when checking collision
+        :param msg:             flavour text to display on collision
+        :return:                (nothing)
         """
+        print(self)
+        if msg:
+            print(msg)
+        if remove_self:
+            self.dead = True
+            self.world.entities.remove(self)
+        if remove_other:
+            other.dead = True
+            self.world.entities.remove(other)
 
     def update(self):
         """

@@ -27,6 +27,7 @@ class Doctor(Entity.Entity):
         Teleports the doctor to a random non-wall spot on the GameBoard
         """
         target_creature = None
+        # (Fancy way of writing while True)
         while "Teleporting" and self.screwdriver_cooldown == 0:
             # Choose a random position
             y = random.randrange(1, self.world.get_height())
@@ -41,7 +42,7 @@ class Doctor(Entity.Entity):
                 break
 
         if target_creature is not None and target_creature is not self:
-            self.collide(target_creature, "You materialized inside the " + target_creature.name
+            self.collide(target_creature, True, False, "You materialized inside the " + target_creature.name
                          + " and instantly died.")
 
     def update(self):
@@ -57,22 +58,23 @@ class Doctor(Entity.Entity):
         scrap = self.world.get_entity(self.x + dx, self.y + dy)
 
         if isinstance(scrap, Scrap.Scrap):
+            print("You BONK into the pile of scrap, slightly burning your eyebrows.")
             return
         else:
             Entity.Entity.move_by(self, dx, dy)
 
-    def collide(self, other, *msg):
+    def collide(self, other, remove_self, remove_other, msg=""):
         """
-        Handles collision with other entities, such as Daleks and Scrap piles.
-        :param other:   another Entity object
-        :param msg:     message to display on collision
+        Handles the Doctors collision with other entities.
+        :param other:           another Entity object
+        :param remove_self:     whether to remove self when checking collision
+        :param remove_other:    whether to remove other when checking collision
+        :param msg:             flavour text to display on collision
+        :return:                (nothing)
         """
-
         if isinstance(other, Dalek.Dalek):
-            if msg:
-                print(msg)
-            else:
-                print("You tackle the Dalek before it disintegrates you with its beam of DEATH.")
-            self.world.entities.remove(self)
+            if not msg:
+                msg = "You tackle the Dalek before it disintegrates you with its DEATH-BEAM"
+            Entity.Entity.collide(self, other, True, False, msg)
 
 

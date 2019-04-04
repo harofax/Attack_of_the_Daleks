@@ -7,7 +7,7 @@ class Tile:
     def __init__(self, glyph):
         """
         Creates a new tile
-        :param tile: the character of the tile - either a # or a . depending on tile type
+        :param glyph: the character of the tile - either a # or a . depending on tile type
         """
         self.glyph = glyph
 
