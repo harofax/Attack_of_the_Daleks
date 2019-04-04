@@ -31,7 +31,7 @@ class Doctor(Entity.Entity):
         while "Teleporting" and self.screwdriver_cooldown == 0:
             # Choose a random position
             y = random.randrange(1, self.world.get_height())
-            x = random.randrange(1, self.world.get_width(y))
+            x = random.randrange(1, self.world.get_width())
 
             # If the position isn't a wall, teleport to it! Otherwise try again.
             if not self.world.get_tile(x, y).is_wall():

@@ -17,11 +17,13 @@ def cls():
 
 
 def setup():
-    print("*************************")
-    print("*   WELCOME          D  *")
-    print("*  TO THE DALEK  =>-/.\\ *")
-    print("*     INVASION     /___\\*")
-    print("*************************")
+    print("**************************")
+    print("*                        *")
+    print("*   WELCOME          D   *")
+    print("*  TO THE DALEK  =>-/.\\  *")
+    print("*     INVASION     /___\\ *")
+    print("*                  ~~~~~ *")
+    print("**************************")
 
     print("Type ANYTHING to play the game")
     print("( or HELP to get instructions )")
@@ -51,7 +53,7 @@ def update(game_board, player_input):
     Waits for user input, then moves Daleks accordingly and checks for the win/lose-condition.
     :return:    nothing
     """
-
+    print("EVENTS: ")
     if player_input == "w":
         game_board.player.move_by(0, -1)
     elif player_input == "x":
@@ -73,7 +75,6 @@ def update(game_board, player_input):
     elif player_input == "t":
         game_board.player.teleport()
 
-    print("EVENTS: ")
     game_board.update()
 
 
@@ -128,13 +129,20 @@ def main():
             update(game_board, player_input)
             draw(game_board)
 
+        # Fancy way of writing "while True".
         while "Asking for re-match":
             cls()
-            print("**********************")
-            print("*   ________    [END]*")
-            print("*  /[][][][]\\        *")
-            print("*  \\________/=<<<    *")
-            print("**********************")
+            end_message = " ! ! ! YOU WON ! ! !" if game_board.win else " - - - YOU LOST - - -"
+            print(end_message)
+            print("************************")
+            print("* . . . . . . . . . . .*")
+            print("*. .________ [THE END] *")
+            print("* ./[][][][]\\. . . . . *")
+            print("*. \\________/=<<<. . . *")
+            print("* . . . . . . . . . . .*")
+            print("************************")
+            print(end_message)
+
             again = input("Play again? (Y/N) ").upper()
             if again == "N":
                 restart = False

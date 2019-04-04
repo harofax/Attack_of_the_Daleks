@@ -53,6 +53,7 @@ class GameBoard:
         # Check if any Daleks are left in the entities list, if not - VICTORY
         if not list(filter(lambda board_entity: board_entity.name == "Dalek", self.entities)):
             self.game_over = True
+            self.win = True
             print("You won! Congratulations!")
 
     def get_entity(self, x, y):

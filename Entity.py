@@ -45,7 +45,6 @@ class Entity:
         :param msg:             flavour text to display on collision
         :return:                (nothing)
         """
-        print(self)
         if msg:
             print(msg)
         if remove_self:
